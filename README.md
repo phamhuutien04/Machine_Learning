@@ -1,153 +1,231 @@
-Summary
-=======
+# HƯỚNG DẪN SỬ DỤNG HỆ THỐNG NHẬN DẠNG BỆNH LÁ CÂY
 
-This dataset (ml-latest-small) describes 5-star rating and free-text tagging activity from [MovieLens](http://movielens.org), a movie recommendation service. It contains 100836 ratings and 3683 tag applications across 9742 movies. These data were created by 610 users between March 29, 1996 and September 24, 2018. This dataset was generated on September 26, 2018.
+## 📋 MỤC LỤC
+1. [Tổng quan](#tổng-quan)
+2. [Cài đặt](#cài-đặt)
+3. [Huấn luyện mô hình](#huấn-luyện-mô-hình)
+4. [Sử dụng giao diện](#sử-dụng-giao-diện)
+5. [So sánh KNN vs SVM](#so-sánh-knn-vs-svm)
 
-Users were selected at random for inclusion. All selected users had rated at least 20 movies. No demographic information is included. Each user is represented by an id, and no other information is provided.
+---
 
-The data are contained in the files `links.csv`, `movies.csv`, `ratings.csv` and `tags.csv`. More details about the contents and use of all these files follows.
+## 🎯 TỔNG QUAN
 
-This is a *development* dataset. As such, it may change over time and is not an appropriate dataset for shared research results. See available *benchmark* datasets if that is your intent.
+Hệ thống sử dụng 2 mô hình Machine Learning để nhận dạng bệnh trên lá cây:
 
-This and other GroupLens data sets are publicly available for download at <http://grouplens.org/datasets/>.
+### **KNN (K-Nearest Neighbors)**
+- ✅ Training nhanh
+- ✅ Đơn giản, dễ hiểu
+- ❌ Dự đoán chậm hơn
+- ❌ Cần nhiều bộ nhớ
 
+### **SVM (Support Vector Machine)**
+- ✅ Dự đoán nhanh
+- ✅ Chính xác cao
+- ❌ Training lâu hơn
+- ❌ Phức tạp hơn
 
-Usage License
-=============
+### **Dataset**
+- Tổng số ảnh: 54,304
+- Train: 43,443 ảnh (80%)
+- Test: 10,861 ảnh (20%)
+- Số lớp bệnh: 38
 
-Neither the University of Minnesota nor any of the researchers involved can guarantee the correctness of the data, its suitability for any particular purpose, or the validity of results based on the use of the data set. The data set may be used for any research purposes under the following conditions:
+---
 
-* The user may not state or imply any endorsement from the University of Minnesota or the GroupLens Research Group.
-* The user must acknowledge the use of the data set in publications resulting from the use of the data set (see below for citation information).
-* The user may redistribute the data set, including transformations, so long as it is distributed under these same license conditions.
-* The user may not use this information for any commercial or revenue-bearing purposes without first obtaining permission from a faculty member of the GroupLens Research Project at the University of Minnesota.
-* The executable software scripts are provided "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of them is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
+## 🔧 CÀI ĐẶT
 
-In no event shall the University of Minnesota, its affiliates or employees be liable to you for any damages arising out of the use or inability to use these programs (including but not limited to loss of data or data being rendered inaccurate).
+### Yêu cầu:
+```bash
+pip install tensorflow
+pip install scikit-learn
+pip install streamlit
+pip install matplotlib
+pip install seaborn
+pip install joblib
+pip install pillow
+```
 
-If you have any further questions or comments, please email <grouplens-info@umn.edu>
+---
 
+## 🚀 HUẤN LUYỆN MÔ HÌNH
 
-Citation
-========
+### Bước 1: Chạy file training
+```bash
+python a.py
+```
 
-To acknowledge use of the dataset in publications, please cite the following paper:
+### Bước 2: Đợi quá trình hoàn thành
+- Trích xuất features: ~5-10 phút
+- Training KNN: ~10-30 giây
+- Training SVM: ~1-3 phút
+- Tạo biểu đồ: ~30 giây
 
-> F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on Interactive Intelligent Systems (TiiS) 5, 4: 19:1–19:19. <https://doi.org/10.1145/2827872>
+### Bước 3: Kiểm tra kết quả
+Sau khi chạy xong, bạn sẽ có:
 
+**Files mô hình:**
+- `knn_model.joblib` - Mô hình KNN
+- `svm_model.joblib` - Mô hình SVM
+- `pca_model.joblib` - Mô hình PCA
+- `class_names.json` - Danh sách 38 loại bệnh
 
-Further Information About GroupLens
-===================================
+**Thư mục results/:**
+- `confusion_matrix_knn.png` - Ma trận nhầm lẫn KNN
+- `confusion_matrix_svm.png` - Ma trận nhầm lẫn SVM
+- `model_comparison.png` - So sánh chi tiết 2 mô hình
+- `training_time_comparison.png` - So sánh thời gian training
+- `training_report.txt` - Báo cáo chi tiết
 
-GroupLens is a research group in the Department of Computer Science and Engineering at the University of Minnesota. Since its inception in 1992, GroupLens's research projects have explored a variety of fields including:
+---
 
-* recommender systems
-* online communities
-* mobile and ubiquitious technologies
-* digital libraries
-* local geographic information systems
+## 🖥️ SỬ DỤNG GIAO DIỆN
 
-GroupLens Research operates a movie recommender based on collaborative filtering, MovieLens, which is the source of these data. We encourage you to visit <http://movielens.org> to try it out! If you have exciting ideas for experimental work to conduct on MovieLens, send us an email at <grouplens-info@cs.umn.edu> - we are always interested in working with external collaborators.
+### Option 1: Chỉ dùng KNN (file gốc)
+```bash
+streamlit run ui1.py
+```
 
+### Option 2: So sánh KNN vs SVM (file mới)
+```bash
+streamlit run ui_compare.py
+```
 
-Content and Use of Files
-========================
+### Giao diện sẽ mở tại:
+```
+http://localhost:8501
+```
 
-Formatting and Encoding
------------------------
+---
 
-The dataset files are written as [comma-separated values](http://en.wikipedia.org/wiki/Comma-separated_values) files with a single header row. Columns that contain commas (`,`) are escaped using double-quotes (`"`). These files are encoded as UTF-8. If accented characters in movie titles or tag values (e.g. Misérables, Les (1995)) display incorrectly, make sure that any program reading the data, such as a text editor, terminal, or script, is configured for UTF-8.
+## 📊 SO SÁNH KNN VS SVM
 
+### **Khi nào dùng KNN?**
+✅ Cần training nhanh  
+✅ Dataset nhỏ  
+✅ Không cần dự đoán real-time  
+✅ Muốn giải thích dễ hiểu  
 
-User Ids
---------
+### **Khi nào dùng SVM?**
+✅ Cần độ chính xác cao  
+✅ Dự đoán real-time (sau khi train)  
+✅ Dataset lớn  
+✅ Có thời gian training  
 
-MovieLens users were selected at random for inclusion. Their ids have been anonymized. User ids are consistent between `ratings.csv` and `tags.csv` (i.e., the same id refers to the same user across the two files).
+### **Ví dụ thực tế:**
 
+**Kịch bản 1: Ứng dụng mobile cho nông dân**
+→ Chọn **SVM** vì cần dự đoán nhanh trên điện thoại
 
-Movie Ids
----------
+**Kịch bản 2: Nghiên cứu, thử nghiệm**
+→ Chọn **KNN** vì dễ thử nghiệm nhiều tham số
 
-Only movies with at least one rating or tag are included in the dataset. These movie ids are consistent with those used on the MovieLens web site (e.g., id `1` corresponds to the URL <https://movielens.org/movies/1>). Movie ids are consistent between `ratings.csv`, `tags.csv`, `movies.csv`, and `links.csv` (i.e., the same id refers to the same movie across these four data files).
+**Kịch bản 3: Hệ thống chuyên nghiệp**
+→ Dùng **cả 2**, nếu kết quả giống nhau → tin cậy cao
 
+---
 
-Ratings Data File Structure (ratings.csv)
------------------------------------------
+## 🎨 GIẢI THÍCH BIỂU ĐỒ
 
-All ratings are contained in the file `ratings.csv`. Each line of this file after the header row represents one rating of one movie by one user, and has the following format:
+### 1. **Confusion Matrix**
+```
+Đường chéo chính (màu đậm) = Dự đoán ĐÚNG
+Các ô khác = Dự đoán SAI
+```
 
-    userId,movieId,rating,timestamp
+**Ví dụ:**
+- Ô (Apple_scab, Black_rot) = 15
+- → 15 ảnh Apple_scab bị nhầm thành Black_rot
 
-The lines within this file are ordered first by userId, then, within user, by movieId.
+### 2. **Model Comparison**
+- **Cột 1**: So sánh Accuracy tổng thể
+- **Cột 2**: So sánh Precision, Recall, F1-Score
+- **Cột 3**: Accuracy theo từng loại bệnh
 
-Ratings are made on a 5-star scale, with half-star increments (0.5 stars - 5.0 stars).
+### 3. **Training Time**
+- Cột thấp = Training nhanh
+- KNN thường nhanh hơn SVM
 
-Timestamps represent seconds since midnight Coordinated Universal Time (UTC) of January 1, 1970.
+---
 
+## 📝 CÁCH SỬ DỤNG UI
 
-Tags Data File Structure (tags.csv)
------------------------------------
+### **Bước 1: Chọn mô hình**
+Ở sidebar bên trái:
+- **KNN**: Chỉ dùng KNN
+- **SVM**: Chỉ dùng SVM
+- **So sánh cả 2**: Xem kết quả của cả 2 mô hình
 
-All tags are contained in the file `tags.csv`. Each line of this file after the header row represents one tag applied to one movie by one user, and has the following format:
+### **Bước 2: Upload ảnh**
+- Click "Browse files"
+- Chọn ảnh lá cây (.jpg, .jpeg, .png)
 
-    userId,movieId,tag,timestamp
+### **Bước 3: Xem kết quả**
+Hệ thống sẽ hiển thị:
+- 🌿 Tên cây
+- 🦠 Loại bệnh (tiếng Việt)
+- 📊 Độ tin cậy (%)
+- 🔎 Top 3 dự đoán có xác suất cao nhất
 
-The lines within this file are ordered first by userId, then, within user, by movieId.
+### **Bước 4: So sánh (nếu chọn "So sánh cả 2")**
+- Cột trái: Kết quả KNN
+- Cột phải: Kết quả SVM
+- Dưới cùng: Kết luận (giống nhau hay khác nhau)
 
-Tags are user-generated metadata about movies. Each tag is typically a single word or short phrase. The meaning, value, and purpose of a particular tag is determined by each user.
+---
 
-Timestamps represent seconds since midnight Coordinated Universal Time (UTC) of January 1, 1970.
+## ❓ CÂU HỎI THƯỜNG GẶP
 
+### **Q: Tại sao KNN và SVM cho kết quả khác nhau?**
+A: Vì 2 mô hình hoạt động theo cách khác nhau:
+- KNN: Dựa vào láng giềng gần nhất
+- SVM: Dựa vào đường phân chia tối ưu
 
-Movies Data File Structure (movies.csv)
----------------------------------------
+### **Q: Mô hình nào chính xác hơn?**
+A: Xem file `results/training_report.txt` để biết accuracy của từng mô hình
 
-Movie information is contained in the file `movies.csv`. Each line of this file after the header row represents one movie, and has the following format:
+### **Q: Có thể thêm loại bệnh mới không?**
+A: Có, nhưng phải train lại từ đầu với dataset mới
 
-    movieId,title,genres
+### **Q: Tại sao độ tin cậy thấp?**
+A: Có thể do:
+- Ảnh mờ, không rõ
+- Bệnh hiếm, ít dữ liệu training
+- Triệu chứng giống nhiều loại bệnh
 
-Movie titles are entered manually or imported from <https://www.themoviedb.org/>, and include the year of release in parentheses. Errors and inconsistencies may exist in these titles.
+---
 
-Genres are a pipe-separated list, and are selected from the following:
+## 🎓 CHO BÁO CÁO
 
-* Action
-* Adventure
-* Animation
-* Children's
-* Comedy
-* Crime
-* Documentary
-* Drama
-* Fantasy
-* Film-Noir
-* Horror
-* Musical
-* Mystery
-* Romance
-* Sci-Fi
-* Thriller
-* War
-* Western
-* (no genres listed)
+### **Nội dung cần có:**
+1. Giới thiệu bài toán
+2. Dataset (80:20 train:test)
+3. Phương pháp:
+   - MobileNetV2 (Transfer Learning)
+   - PCA (1280 → 200 features)
+   - KNN và SVM
+4. Kết quả:
+   - Accuracy, Precision, Recall, F1-Score
+   - Confusion Matrix
+   - Training Time
+5. So sánh KNN vs SVM
+6. Kết luận và hướng phát triển
 
+### **Biểu đồ cần đính kèm:**
+- ✅ Confusion Matrix (2 cái)
+- ✅ Model Comparison
+- ✅ Training Time Comparison
 
-Links Data File Structure (links.csv)
----------------------------------------
+---
 
-Identifiers that can be used to link to other sources of movie data are contained in the file `links.csv`. Each line of this file after the header row represents one movie, and has the following format:
+## 📞 HỖ TRỢ
 
-    movieId,imdbId,tmdbId
+Nếu gặp lỗi:
+1. Kiểm tra đã cài đủ thư viện chưa
+2. Kiểm tra đã train model chưa (chạy `a.py`)
+3. Kiểm tra file model có tồn tại không
+4. Xem log lỗi để debug
 
-movieId is an identifier for movies used by <https://movielens.org>. E.g., the movie Toy Story has the link <https://movielens.org/movies/1>.
+---
 
-imdbId is an identifier for movies used by <http://www.imdb.com>. E.g., the movie Toy Story has the link <http://www.imdb.com/title/tt0114709/>.
-
-tmdbId is an identifier for movies used by <https://www.themoviedb.org>. E.g., the movie Toy Story has the link <https://www.themoviedb.org/movie/862>.
-
-Use of the resources listed above is subject to the terms of each provider.
-
-
-Cross-Validation
-----------------
-
-Prior versions of the MovieLens dataset included either pre-computed cross-folds or scripts to perform this computation. We no longer bundle either of these features with the dataset, since most modern toolkits provide this as a built-in feature. If you wish to learn about standard approaches to cross-fold computation in the context of recommender systems evaluation, see [LensKit](http://lenskit.org) for tools, documentation, and open-source code examples.
+**Chúc bạn thành công! 🎉**
