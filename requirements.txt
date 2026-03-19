@@ -1,0 +1,25 @@
+# Deep Learning Framework
+tensorflow>=2.10.0
+
+# Machine Learning
+scikit-learn>=1.1.0
+
+# Data Processing
+numpy>=1.23.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.12.0
+
+# Model Persistence
+joblib>=1.2.0
+
+# Image Processing
+Pillow>=9.0.0
+
+# Jupyter Notebook (optional)
+jupyter>=1.0.0
+ipykernel>=6.15.0
+
+# Progress Bar (optional)
+tqdm>=4.64.0
